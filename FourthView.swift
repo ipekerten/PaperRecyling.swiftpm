@@ -11,6 +11,8 @@ struct FourthView: View {
         Text("Oi")
             .font(.largeTitle)
             .padding()
+        
+            .navigationBarHidden(true)
     }
 }
 

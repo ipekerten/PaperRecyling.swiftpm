@@ -9,11 +9,24 @@ import SwiftUI
 
 struct ThirdView: View {
     @State private var rotationAngle: Double = 0
-    @State private var rotationCount: Int = 0
-    @State private var rectangleColor: Color = .red // Default color
+    @State private var rectangleColor: Color = .red
     
-    let rotationThreshold = 720.0 // two full rotation
+    let rotationThreshold = 360.0 // one full rotation
+    
+    private func updateRotation(_ newAngle: Double) {
+        let newRotations = Int(newAngle / rotationThreshold)
 
+        // Change color based on full rotations
+        switch newRotations {
+        case 2: rectangleColor = .blue
+        case 4: rectangleColor = .green
+        case 6: rectangleColor = .yellow
+        default: break
+        }
+
+        rotationAngle = newAngle
+    }
+    
     var body: some View {
         VStack {
             // Wheel
@@ -26,16 +39,12 @@ struct ThirdView: View {
                         DragGesture()
                             .onChanged { value in
                                 let dragAmount = value.translation.width
-                                let newAngle = rotationAngle + dragAmount / 3
+                                let newAngle = rotationAngle + dragAmount / 6
                                 updateRotation(newAngle)
                             }
                     )
-                Text("\(rotationCount)")
-                    .font(.largeTitle)
-                    .bold()
             }
-            
-            Spacer().frame(height: 50)
+            .padding()
 
             // Rectangle that changes color
             Rectangle()
@@ -43,30 +52,21 @@ struct ThirdView: View {
                 .frame(width: 200, height: 100)
                 .cornerRadius(10)
 
+            // Show Next button only when the rectangle is yellow
+            if rectangleColor == .yellow {
+                NavigationLink("Next") {
+                    FourthView()
+                }
+                .padding(.top, 20)
+                .font(.title)
+                .background(Color.green)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+                .padding(.horizontal, 50)
+            }
         }
         .padding()
-    }
-
-    private func updateRotation(_ newAngle: Double) {
-        let previousRotations = Int(rotationAngle / rotationThreshold)
-        let newRotations = Int(newAngle / rotationThreshold)
-
-        // Check if a new full rotation has been completed
-        if newRotations > previousRotations {
-            rotationCount += 1
-            updateRectangleColor()
-        }
-        
-        rotationAngle = newAngle
-    }
-
-    private func updateRectangleColor() {
-        switch rotationCount {
-        case 2: rectangleColor = .blue
-        case 4: rectangleColor = .green
-        case 6: rectangleColor = .yellow
-        default: break
-        }
+        .navigationBarHidden(true)
     }
 }
 
