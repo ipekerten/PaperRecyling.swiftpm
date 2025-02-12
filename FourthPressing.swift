@@ -8,7 +8,7 @@
 import SwiftUI
 import UIKit
 
-struct FifthView: View {
+struct FourthPressing: View {
     private let colors: [Color] = [.white, .blue, .cyan, .mint, .pink, .yellow, .purple, .green, .orange, .red]
     @State var index: Int = 0
     @State var vertical: Bool = true

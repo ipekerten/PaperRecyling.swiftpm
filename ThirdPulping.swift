@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ThirdView: View {
+struct ThirdPulping: View {
     @State private var rotationAngle: Double = 0
     @State private var rectangleColor: Color = .red
     
@@ -70,5 +70,5 @@ struct ThirdView: View {
 }
 
 #Preview {
-    ThirdView()
+    ThirdPulping()
 }

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SecondView: View {
+struct SecondSeparating: View {
     struct DraggableItem: Identifiable {
         let id = UUID()
         var color: Color
@@ -120,5 +120,5 @@ struct SecondView: View {
 
 
 #Preview {
-    SecondView()
+    SecondSeparating()
 }

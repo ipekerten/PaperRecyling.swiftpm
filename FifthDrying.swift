@@ -1,7 +1,7 @@
 import SwiftUI
 import CoreMotion
 
-struct FourthView: View {
+struct FifthDrying: View {
     @State private var backgroundColor: Color = .white
     @State private var colorIndex: Int = 0
     @State private var showNextButton: Bool = false
@@ -67,5 +67,5 @@ struct FourthView: View {
 }
 
 #Preview {
-    FourthView()
+    FifthDrying()
 }

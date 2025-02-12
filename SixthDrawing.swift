@@ -8,9 +8,9 @@
 import SwiftUI
 import PencilKit
 
-struct SixthView: View {
+struct SixthDrawing: View {
     @State private var canvasView = PKCanvasView()
-    @State private var toolPicker = PKToolPicker() // ✅ Use an instance of PKToolPicker
+    @State private var toolPicker = PKToolPicker() // Use an instance of PKToolPicker
     
     var body: some View {
         ZStack {
@@ -57,5 +57,5 @@ struct DrawingCanvasView: UIViewRepresentable {
 }
 
 #Preview {
-    SixthView()
+    SixthDrawing()
 }

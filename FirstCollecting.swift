@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct FirstView: View {
+struct FirstCollecting: View {
     struct DraggableItem {
         // Current position offset of the circle.
         var offset: CGSize = .zero
