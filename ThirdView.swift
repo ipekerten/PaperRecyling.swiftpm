@@ -11,7 +11,7 @@ struct ThirdView: View {
     @State private var rotationAngle: Double = 0
     @State private var rectangleColor: Color = .red
     
-    let rotationThreshold = 360.0 // one full rotation
+    let rotationThreshold = 230.0 // rotation degree
     
     private func updateRotation(_ newAngle: Double) {
         let newRotations = Int(newAngle / rotationThreshold)
@@ -65,7 +65,6 @@ struct ThirdView: View {
                 .padding(.horizontal, 50)
             }
         }
-        .padding()
         .navigationBarHidden(true)
     }
 }
