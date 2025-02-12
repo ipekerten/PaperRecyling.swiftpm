@@ -20,7 +20,7 @@ struct FirstCollecting: View {
                 GeometryReader { geometry in
                     if draggableItems.isEmpty {
                         NavigationLink("Next") {
-                            SecondView()
+                            SecondSeparating()
                         }
                         .font(.title)
                         .background(Color.green)

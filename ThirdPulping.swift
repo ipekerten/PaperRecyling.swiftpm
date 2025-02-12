@@ -55,7 +55,7 @@ struct ThirdPulping: View {
             // Show Next button only when the rectangle is yellow
             if rectangleColor == .yellow {
                 NavigationLink("Next") {
-                    FourthView()
+                    FifthDrying()
                 }
                 .padding(.top, 20)
                 .font(.title)

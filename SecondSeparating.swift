@@ -42,7 +42,7 @@ struct SecondSeparating: View {
         GeometryReader { geometry in
             if draggableItems.isEmpty {
                 NavigationLink("Next") {
-                    ThirdView()
+                    ThirdPulping()
                 }
                 .font(.title)
                 .background(Color.green)

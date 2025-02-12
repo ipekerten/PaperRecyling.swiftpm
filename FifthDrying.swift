@@ -21,7 +21,7 @@ struct FifthDrying: View {
             
             if showNextButton {
                 NavigationLink("Next") {
-                    FifthView()
+                    FourthPressing()
                 }
                 .padding()
                 .background(Color.black.opacity(0.7))
