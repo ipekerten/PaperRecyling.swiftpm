@@ -9,13 +9,17 @@ import SwiftUI
 
 struct ThirdPulping: View {
     @State private var rotationAngle: Double = 0
-    @State private var lastAngle: Double = 0
+    @State private var totalRotation: Double = 0 // Renk değişimi için ayrı değişken
     @State private var rectangleColor: Color = .red
-    
+    @State private var lastAngle: Double = 0
+
     let rotationThreshold = 360.0 // Renk değiştirme eşiği
 
-    private func updateRotation(_ newAngle: Double) {
-        let rotations = Int(newAngle / rotationThreshold)
+    private func updateRotation(_ deltaAngle: Double) {
+        rotationAngle += deltaAngle // Tekerlek her iki yöne de dönebilir
+        totalRotation += abs(deltaAngle) // Renk değişimi sadece ileriye doğru
+
+        let rotations = Int(totalRotation / rotationThreshold)
 
         switch rotations {
         case 2: rectangleColor = .blue
@@ -23,8 +27,6 @@ struct ThirdPulping: View {
         case 6: rectangleColor = .yellow
         default: break
         }
-
-        rotationAngle = newAngle
     }
 
     var body: some View {
@@ -45,7 +47,7 @@ struct ThirdPulping: View {
                                 let deltaAngle = angle - lastAngle
                                 
                                 if abs(deltaAngle) < 50 { // Ani sıçramaları önlemek için
-                                    updateRotation(rotationAngle + deltaAngle)
+                                    updateRotation(deltaAngle)
                                 }
 
                                 lastAngle = angle
