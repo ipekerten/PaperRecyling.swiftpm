@@ -12,7 +12,7 @@ struct ThirdPulping: View {
     @State private var lastAngle: Double = 0
     @State private var rectangleColor: Color = .red
     
-    let rotationThreshold = 180.0 // Renk değiştirme eşiği
+    let rotationThreshold = 360.0 // Renk değiştirme eşiği
 
     private func updateRotation(_ newAngle: Double) {
         let rotations = Int(newAngle / rotationThreshold)
