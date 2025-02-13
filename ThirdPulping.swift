@@ -9,15 +9,15 @@ import SwiftUI
 
 struct ThirdPulping: View {
     @State private var rotationAngle: Double = 0
+    @State private var lastAngle: Double = 0
     @State private var rectangleColor: Color = .red
     
-    let rotationThreshold = 250.0 // rotation degree
-    
-    private func updateRotation(_ newAngle: Double) {
-        let newRotations = Int(newAngle / rotationThreshold)
+    let rotationThreshold = 180.0 // Renk değiştirme eşiği
 
-        // Change color based on full rotations
-        switch newRotations {
+    private func updateRotation(_ newAngle: Double) {
+        let rotations = Int(newAngle / rotationThreshold)
+
+        switch rotations {
         case 2: rectangleColor = .blue
         case 4: rectangleColor = .green
         case 6: rectangleColor = .yellow
@@ -26,21 +26,29 @@ struct ThirdPulping: View {
 
         rotationAngle = newAngle
     }
-    
+
     var body: some View {
         VStack {
             // Wheel
             ZStack {
-                Circle()
-                    .stroke(lineWidth: 5)
+                Image("wheel")
+                    .resizable()
                     .frame(width: 150, height: 150)
                     .rotationEffect(.degrees(rotationAngle))
                     .gesture(
                         DragGesture()
                             .onChanged { value in
-                                let dragAmount = value.translation.width
-                                let newAngle = rotationAngle + dragAmount / 6
-                                updateRotation(newAngle)
+                                let center = CGPoint(x: 75, y: 75) // Tekerleğin merkezi
+                                let touchPoint = value.location
+                                
+                                let angle = atan2(touchPoint.y - center.y, touchPoint.x - center.x) * 180 / .pi
+                                let deltaAngle = angle - lastAngle
+                                
+                                if abs(deltaAngle) < 50 { // Ani sıçramaları önlemek için
+                                    updateRotation(rotationAngle + deltaAngle)
+                                }
+
+                                lastAngle = angle
                             }
                     )
             }
