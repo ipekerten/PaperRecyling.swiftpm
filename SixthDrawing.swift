@@ -31,6 +31,7 @@ struct SixthDrawing: View {
         .onAppear {
             showToolPicker()
         }
+        .navigationBarHidden(true)
     }
     
     //  Show the PencilKit Tool Picker (Fixed for iOS 14+)

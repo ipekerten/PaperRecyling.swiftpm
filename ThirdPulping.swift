@@ -11,7 +11,7 @@ struct ThirdPulping: View {
     @State private var rotationAngle: Double = 0
     @State private var rectangleColor: Color = .red
     
-    let rotationThreshold = 230.0 // rotation degree
+    let rotationThreshold = 250.0 // rotation degree
     
     private func updateRotation(_ newAngle: Double) {
         let newRotations = Int(newAngle / rotationThreshold)
@@ -55,7 +55,7 @@ struct ThirdPulping: View {
             // Show Next button only when the rectangle is yellow
             if rectangleColor == .yellow {
                 NavigationLink("Next") {
-                    FifthDrying()
+                    FourthPressing()
                 }
                 .padding(.top, 20)
                 .font(.title)
