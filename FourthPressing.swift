@@ -42,14 +42,13 @@ struct FourthPressing: View {
                         }
                         .simultaneously(with: DragGesture(minimumDistance: 0)) // İki parmak gerektirir
                 )
-            
+            Text("Move your finger on the screen")
             if index == colors.count - 1 {
                 NavigationLink("Next") {
                     FifthDrying()
                 }
                 .padding()
-                .background(Color.black.opacity(0.7))
-                .foregroundColor(.white)
+                .foregroundColor(.blue)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 100)
             }

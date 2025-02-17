@@ -18,13 +18,14 @@ struct FifthDrying: View {
                 .onAppear {
                     startMonitoringAccelerometer()
                 }
+            Text("Shake the iPad")
+                .foregroundStyle(.black)
             
             if showNextButton {
                 NavigationLink("Next") {
                     SixthDrawing()
                 }
                 .padding()
-                .background(Color.black.opacity(0.7))
                 .foregroundColor(.white)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 100)

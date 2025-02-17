@@ -31,6 +31,7 @@ struct ThirdPulping: View {
 
     var body: some View {
         VStack {
+            Text("Turn the wheel")
             // Wheel
             ZStack {
                 Image("wheel")
@@ -69,9 +70,7 @@ struct ThirdPulping: View {
                 }
                 .padding(.top, 20)
                 .font(.title)
-                .background(Color.green)
-                .foregroundColor(.white)
-                .cornerRadius(10)
+                .foregroundColor(.blue)
                 .padding(.horizontal, 50)
             }
         }

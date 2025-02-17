@@ -1,107 +1,103 @@
 import SwiftUI
 
 struct FirstCollecting: View {
-    struct DraggableItem {
-        // Current position offset of the circle.
+    struct DraggableItem: Identifiable {
+        var id = UUID()
         var offset: CGSize = .zero
-        // Saves the position when the drag ends.
         var lastOffset: CGSize = .zero
+        var imageName: String
     }
-    //An array of 4 draggable circles, each with an initial offset of .zero.
-    @State private var draggableItems: [DraggableItem] = Array(repeating: DraggableItem(), count: 4)
-    //Stores the frame (position and size) of the drop zone rectangle.
+
+    @State private var draggableItems: [DraggableItem] = [
+        DraggableItem(imageName: "Trash1"),
+        DraggableItem(imageName: "Trash2"),
+        DraggableItem(imageName: "Trash3"),
+        DraggableItem(imageName: "Trash4")
+    ]
+
     @State private var rectFrame: CGRect = .zero
-    @State private var rectColor: Color = .blue
-    
-    
+    @State private var recycleBinImage: String = "RecycleBin"
+
     var body: some View {
         NavigationStack {
-                //GeometryReader is used to get the screen size for positioning elements.
+            ZStack{
+                Color(red: 255/255, green: 187/255, blue: 2/255)
+                    .ignoresSafeArea()
+                
                 GeometryReader { geometry in
                     if draggableItems.isEmpty {
                         NavigationLink("Next") {
                             SecondSeparating()
                         }
                         .font(.title)
-                        .background(Color.green)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                        .position(x: geometry.size.width / 2, y: geometry.size.height - 200)
-                        
+                        .foregroundColor(.black)
+                        .position(x: geometry.size.width / 2, y: geometry.size.height / 3 - 200)
                     }
                     
-                    Rectangle()
-                        .fill(rectColor.opacity(0.5))
-                        .frame(width: 200, height: 100)
-                        .overlay(Text("Drop here").foregroundColor(.white))
-                    //Centers the rectangle on the screen
-                        .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
-                    //onAppear: Saves the rectangle’s position and size into rectFrame for later collision detection.
-                        .onAppear {
-                            rectFrame = CGRect(
-                                x: (geometry.size.width - 200) / 2,
-                                y: (geometry.size.height - 100) / 2,
-                                width: 200,
-                                height: 100
-                            )
-                        }
+                    // Geri dönüşüm kutusu
+                    Image(recycleBinImage)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 400, height: 400)
+                        .position(x: geometry.size.width / 2, y: geometry.size.height * 0.7)
+                        .background(GeometryReader { proxy in
+                            Color.clear.onAppear {
+                                let imageWidth: CGFloat = 150
+                                let imageHeight: CGFloat = imageWidth * (2.0 / 3.0)
+                                
+                                rectFrame = CGRect(
+                                    x: (geometry.size.width - imageWidth) / 2,
+                                    y: (geometry.size.height * 0.7) - (imageHeight / 2),
+                                    width: imageWidth,
+                                    height: imageHeight
+                                )
+                            }
+                        })
                     
                     
-                    
-                    //ForEach iterates over the draggableItems array to create 4 circles.
-                    ForEach(0..<draggableItems.count, id: \.self) { index in
-                        Circle()
-                            .fill(Color.red)
-                            .frame(width: 50, height: 50)
-                            .offset(draggableItems[index].offset)
+                    ForEach(Array(draggableItems.enumerated()), id: \.element.id) { index, item in
+                        Image(item.imageName)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 140, height: 140) // Boyutu 100x100 olarak ayarlandı
+                            .offset(item.offset)
                             .gesture(
                                 DragGesture()
-                                //onChanged: Updates offset based on drag movement.
                                     .onChanged { value in
                                         draggableItems[index].offset = CGSize(
                                             width: draggableItems[index].lastOffset.width + value.translation.width,
                                             height: draggableItems[index].lastOffset.height + value.translation.height
                                         )
                                     }
-                                /* onEnded: When the user stops dragging:
-                                 Saves the lastOffset for future drags.
-                                 Calculates circleFrame, the new position of the circle.
-                                 Checks if circleFrame intersects with rectFrame (drop zone).
-                                 Prints whether the circle is overlapping the drop zone.
-                                 */
                                     .onEnded { value in
                                         draggableItems[index].lastOffset = draggableItems[index].offset
                                         
-                                        let circleFrame = CGRect(
-                                            x: (geometry.size.width / 2 - (CGFloat(draggableItems.count - 1) * 35)) + CGFloat(index * 70) + draggableItems[index].lastOffset.width,
-                                            y: (geometry.size.height / 3 - 25) + draggableItems[index].lastOffset.height,
-                                            width: 50,
-                                            height: 50
+                                        let imageFrame = CGRect(
+                                            x: (geometry.size.width / 2 - (CGFloat(draggableItems.count - 1) * 70)) + CGFloat(index * 140) + draggableItems[index].lastOffset.width,
+                                            y: (geometry.size.height / 3 - 50) + draggableItems[index].lastOffset.height, // Yükseklik de güncellendi
+                                            width: 140,
+                                            height: 140
                                         )
                                         
-                                        let isOverlapping = rectFrame.intersects(circleFrame)
-                                        print("Circle \(index + 1) Overlapping Rectangle? ->", isOverlapping)
-                                        print(rectFrame)
-                                        print(circleFrame)
+                                        let isOverlapping = rectFrame.insetBy(dx: -20, dy: -20).intersects(imageFrame)
+                                        
                                         if isOverlapping {
                                             draggableItems.remove(at: index)
-                                            rectColor = .yellow
+                                            withAnimation {
+                                                recycleBinImage = "RecycleBinFull"
+                                            }
                                         }
-                                        
                                     }
                             )
                             .position(
-                                x: geometry.size.width / 2 - (CGFloat(draggableItems.count - 1) * 35) + CGFloat(index * 70),
+                                x: geometry.size.width / 2 - (CGFloat(draggableItems.count - 1) * 75) + CGFloat(index * 150), // Konumlar düzeltildi
                                 y: geometry.size.height / 3
                             )
-                        
                     }
-                    
-                    
-                    .frame(width: geometry.size.width, height: geometry.size.height)
                 }
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-            .navigationBarHidden(true)
+                .navigationBarHidden(true)
+            }
         }
     }
 }

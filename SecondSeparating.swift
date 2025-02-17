@@ -8,116 +8,141 @@
 import SwiftUI
 
 struct SecondSeparating: View {
-    struct DraggableItem: Identifiable {
+    struct DraggableItem: Identifiable, Equatable {
         let id = UUID()
-        var color: Color
+        var imageName: String
         var offset: CGSize = .zero
         var lastOffset: CGSize = .zero
     }
-
+    
     struct DropZone {
-        var originalColor: Color
-        var currentColor: Color
+        var originalImage: String
+        var currentImage: String
         var frame: CGRect = .zero
         
-        init(color: Color) {
-            self.originalColor = color
-            self.currentColor = color
+        init(image: String) {
+            self.originalImage = image
+            self.currentImage = image
         }
     }
-
+    
     @State private var draggableItems: [DraggableItem] = [
-        DraggableItem(color: .blue), DraggableItem(color: .blue),
-        DraggableItem(color: .red), DraggableItem(color: .red),
-        DraggableItem(color: .green), DraggableItem(color: .green)
+        DraggableItem(imageName: "Trash1"), DraggableItem(imageName: "Trash2"),
+        DraggableItem(imageName: "Trash3"), DraggableItem(imageName: "Trash4"),
+        DraggableItem(imageName: "Trash5"), DraggableItem(imageName: "Trash6")
     ]
     
     @State private var dropZones: [DropZone] = [
-        DropZone(color: .blue), DropZone(color: .red), DropZone(color: .green)
+        DropZone(image: "Newspapers"), DropZone(image: "Cardboards"), DropZone(image: "ComputerPapers")
     ]
-
-    let droppedColors: [Color] = [.pink, .orange, .gray] // New colors after drop
-
+    
+    @State private var droppedItems: Set<UUID> = [] // Başarıyla bırakılanları takip eder
+    
+    let droppedImages: [String: String] = [
+        "Newspapers": "NewspapersFull",
+        "Cardboards": "CardboardsFull",
+        "ComputerPapers": "ComputerPapersFull"
+    ]
+    
+    let validMatches: [String: String] = [
+        "Trash1": "Newspapers", "Trash6": "Newspapers",
+        "Trash2": "Cardboards", "Trash5": "Cardboards",
+        "Trash3": "ComputerPapers", "Trash4": "ComputerPapers"
+    ]
+    
     var body: some View {
-        GeometryReader { geometry in
-            if draggableItems.isEmpty {
-                NavigationLink("Next") {
-                    ThirdPulping()
+        ZStack {
+            Color(red: 122/255, green: 229/255, blue: 201/255)
+                .ignoresSafeArea()
+            
+            GeometryReader { geometry in
+                if draggableItems.allSatisfy({ droppedItems.contains($0.id) }) {
+                    NavigationLink("Next") {
+                        ThirdPulping()
+                    }
+                    .font(.title)
+                    .padding()
+                    .foregroundColor(.black)
+                    .position(x: geometry.size.width / 2, y: geometry.size.height / 3 - 200)
                 }
-                .font(.title)
-                .background(Color.green)
-                .foregroundColor(.white)
-                .cornerRadius(10)
-                .position(x: geometry.size.width / 2, y: geometry.size.height - 200)
-            }
-
-            VStack(spacing: 20) {
-                ForEach(0..<dropZones.count, id: \.self) { index in
-                    Rectangle()
-                        .fill(dropZones[index].currentColor.opacity(0.5))
-                        .frame(width: 200, height: 100)
-                        .overlay(Text("Drop here").foregroundColor(.white))
-                        .background(
-                            GeometryReader { proxy in
-                                Color.clear.onAppear {
-                                    DispatchQueue.main.async {
-                                        dropZones[index].frame = proxy.frame(in: .global)
-                                    }
-                                }
-                            }
-                        )
-                }
-            }
-            .position(x: geometry.size.width / 2, y: geometry.size.height / 3)
-
-            ForEach(draggableItems.indices, id: \.self) { index in
-                Circle()
-                    .fill(draggableItems[index].color)
-                    .frame(width: 50, height: 50)
-                    .offset(draggableItems[index].offset)
-                    .gesture(
-                        DragGesture()
-                            .onChanged { value in
-                                draggableItems[index].offset = CGSize(
-                                    width: draggableItems[index].lastOffset.width + value.translation.width,
-                                    height: draggableItems[index].lastOffset.height + value.translation.height
-                                )
-                            }
-                            .onEnded { _ in
-                                let circleFrame = CGRect(
-                                    x: (geometry.size.width / 2 - (CGFloat(draggableItems.count - 1) * 35)) + CGFloat(index * 70) + draggableItems[index].offset.width,
-                                    y: (geometry.size.height - 100) + draggableItems[index].offset.height,
-                                    width: 50,
-                                    height: 50
-                                )
-
-                                for i in dropZones.indices {
-                                    if dropZones[i].frame.intersects(circleFrame),
-                                       dropZones[i].originalColor == draggableItems[index].color {
+                
+                HStack(spacing: 20) {
+                    ForEach(dropZones.indices, id: \.self) { index in
+                        Image(dropZones[index].currentImage)
+                            .resizable()
+                            .frame(width: 240, height: 240)
+                            .background(
+                                GeometryReader { proxy in
+                                    Color.clear.onAppear {
                                         DispatchQueue.main.async {
-                                            if index < draggableItems.count {
-                                                draggableItems.remove(at: index)
-                                            }
-                                            // Change drop zone color after successful drop
-                                            dropZones[i].currentColor = droppedColors[i % droppedColors.count]
+                                            dropZones[index].frame = proxy.frame(in: .global)
                                         }
-                                       // return
                                     }
                                 }
-                                draggableItems[index].lastOffset = draggableItems[index].offset
-                            }
-                    )
-                    .position(
-                        x: geometry.size.width / 2 - (CGFloat(draggableItems.count - 1) * 35) + CGFloat(index * 70),
-                        y: geometry.size.height - 100
-                    )
+                            )
+                            .animation(.easeIn(duration: 0.3), value: dropZones[index].currentImage) // Apply animation on image change
+                    }
+                }
+                .position(x: geometry.size.width / 2, y: geometry.size.height / 1.5)
+                
+                ForEach(draggableItems.indices, id: \.self) { index in
+                    let item = draggableItems[index]
+                    
+                    if !droppedItems.contains(item.id) { // Zaten bırakılanları gizle
+                        Image(item.imageName)
+                            .resizable()
+                            .frame(width: 115, height: 115)
+                            .offset(item.offset)
+                            .gesture(
+                                DragGesture()
+                                    .onChanged { value in
+                                        draggableItems[index].offset = CGSize(
+                                            width: item.lastOffset.width + value.translation.width,
+                                            height: item.lastOffset.height + value.translation.height
+                                        )
+                                    }
+                                    .onEnded { _ in
+                                        let itemFrame = CGRect(
+                                            x: (geometry.size.width / 2 - (CGFloat(draggableItems.count - 1) * 60)) + CGFloat(index * 120) + item.offset.width,
+                                            y: (geometry.size.height / 3 - 100) + item.offset.height,
+                                            width: 50,
+                                            height: 50
+                                        )
+                                        
+                                        var isDroppedCorrectly = false
+                                        
+                                        for i in dropZones.indices {
+                                            if dropZones[i].frame.intersects(itemFrame),
+                                               validMatches[item.imageName] == dropZones[i].originalImage {
+                                                DispatchQueue.main.async {
+                                                    droppedItems.insert(item.id) // Item'ı başarıyla bırakılanlara ekle
+                                                    dropZones[i].currentImage = droppedImages[dropZones[i].originalImage] ?? dropZones[i].originalImage
+                                                    isDroppedCorrectly = true
+                                                }
+                                            }
+                                        }
+                                        
+                                        if isDroppedCorrectly {
+                                            draggableItems[index].lastOffset = draggableItems[index].offset
+                                        } else {
+                                            withAnimation {
+                                                draggableItems[index].offset = .zero // Yanlış bırakıldıysa yerine dönsün
+                                            }
+                                        }
+                                    }
+                            )
+                            .position(
+                                x: geometry.size.width / 2 - (CGFloat(draggableItems.count - 1) * 60) + CGFloat(index * 120),
+                                y: geometry.size.height / 3 - 100
+                            )
+                    }
+                }
             }
+            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            .navigationBarHidden(true)
         }
-        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        .navigationBarHidden(true)
     }
 }
-
 
 #Preview {
     SecondSeparating()
