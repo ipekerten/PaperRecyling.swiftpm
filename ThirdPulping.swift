@@ -9,31 +9,45 @@ import SwiftUI
 
 struct ThirdPulping: View {
     @State private var rotationAngle: Double = 0
-    @State private var totalRotation: Double = 0 // Renk değişimi için ayrı değişken
-    @State private var rectangleColor: Color = .red
+    @State private var totalRotation: Double = 0
     @State private var lastAngle: Double = 0
 
-    let rotationThreshold = 360.0 // Renk değiştirme eşiği
+    @State private var pulpingImage: String = "Pulping1" // Başlangıç görseli
+
+    let rotationThreshold = 300.0 // Görsel değiştirme eşiği
 
     private func updateRotation(_ deltaAngle: Double) {
-        rotationAngle += deltaAngle // Tekerlek her iki yöne de dönebilir
-        totalRotation += abs(deltaAngle) // Renk değişimi sadece ileriye doğru
+        rotationAngle += deltaAngle
+        totalRotation += abs(deltaAngle)
 
         let rotations = Int(totalRotation / rotationThreshold)
 
         switch rotations {
-        case 2: rectangleColor = .blue
-        case 4: rectangleColor = .green
-        case 6: rectangleColor = .yellow
+        case 2: pulpingImage = "Pulping2"
+        case 4: pulpingImage = "Pulping3"
+        case 6: pulpingImage = "Pulping4"
         default: break
         }
     }
 
     var body: some View {
-        VStack {
-            Text("Turn the wheel")
-            // Wheel
-            ZStack {
+        ZStack {
+            // Arka Plan Rengi
+            Color(red: 114/255, green: 112/255, blue: 245/255)
+                .ignoresSafeArea()
+            
+            if pulpingImage == "Pulping4" {
+                NavigationLink("Next") {
+                    FourthPressing()
+                }
+                .font(.title)
+                .foregroundColor(.black)
+                .padding()
+                .offset(y: -UIScreen.main.bounds.height / 3)
+            }
+
+            VStack {
+                // Wheel (Döndürülebilir Çark) - Move it to the left
                 Image("wheel")
                     .resizable()
                     .frame(width: 150, height: 150)
@@ -41,7 +55,7 @@ struct ThirdPulping: View {
                     .gesture(
                         DragGesture()
                             .onChanged { value in
-                                let center = CGPoint(x: 75, y: 75) // Tekerleğin merkezi
+                                let center = CGPoint(x: 75, y: 75)
                                 let touchPoint = value.location
                                 
                                 let angle = atan2(touchPoint.y - center.y, touchPoint.x - center.x) * 180 / .pi
@@ -54,28 +68,20 @@ struct ThirdPulping: View {
                                 lastAngle = angle
                             }
                     )
-            }
-            .padding()
+                    .offset(x: -UIScreen.main.bounds.width / 3.5,
+                            y: 90) // Move the wheel to the left by a third of the screen width
 
-            // Rectangle that changes color
-            Rectangle()
-                .fill(rectangleColor)
-                .frame(width: 200, height: 100)
-                .cornerRadius(10)
-
-            // Show Next button only when the rectangle is yellow
-            if rectangleColor == .yellow {
-                NavigationLink("Next") {
-                    FourthPressing()
-                }
-                .padding(.top, 20)
-                .font(.title)
-                .foregroundColor(.blue)
-                .padding(.horizontal, 50)
+                // Değişen Görsel
+                Image(pulpingImage)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxWidth: UIScreen.main.bounds.width * 0.9,
+                           maxHeight: UIScreen.main.bounds.height * 0.7)
             }
         }
         .navigationBarHidden(true)
     }
+
 }
 
 #Preview {
