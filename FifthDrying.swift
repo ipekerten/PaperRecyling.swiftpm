@@ -2,22 +2,25 @@ import SwiftUI
 import CoreMotion
 
 struct FifthDrying: View {
-    @State private var backgroundColor: Color = .white
-    @State private var colorIndex: Int = 0
+    @State private var imageName: String = "Press5" // Başlangıç resmi
+    @State private var imageIndex: Int = 0
     @State private var showNextButton: Bool = false
-    
+
     private let motionManager = CMMotionManager()
     private let accelerationThreshold = 2.5
-    private let colors: [Color] = [.white, .blue, .cyan, .mint, .pink, .yellow, .purple, .green, .orange, .red]
+    private let imageNames = ["Press5", "Dry2", "Dry3", "Dry4", "Dry5", "Dry6", "Dry7", "Dry8", "Dry9", "Dry10"]
 
     var body: some View {
         ZStack {
-            Rectangle()
-                .fill(backgroundColor)
+            Image(imageName)
+                .resizable()
+                .scaledToFill()
+                .frame(width: UIScreen.main.bounds.width, height: 1.1 * UIScreen.main.bounds.height)
                 .edgesIgnoringSafeArea(.all)
                 .onAppear {
                     startMonitoringAccelerometer()
                 }
+
             Text("Shake the iPad")
                 .foregroundStyle(.black)
             
@@ -26,12 +29,12 @@ struct FifthDrying: View {
                     SixthDrawing()
                 }
                 .padding()
+                .background(Color.black.opacity(0.7))
                 .foregroundColor(.white)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 100)
             }
         }
-        
         .navigationBarHidden(true)
     }
 
@@ -52,12 +55,12 @@ struct FifthDrying: View {
             
             if magnitude > self.accelerationThreshold {
                 DispatchQueue.main.async {
-                    if self.colorIndex < self.colors.count - 1 {
-                        self.colorIndex += 1
-                        self.backgroundColor = self.colors[self.colorIndex]
+                    if self.imageIndex < self.imageNames.count - 1 {
+                        self.imageIndex += 1
+                        self.imageName = self.imageNames[self.imageIndex]
                     }
                     
-                    if self.colorIndex == self.colors.count - 1 {
+                    if self.imageIndex == self.imageNames.count - 1 {
                         self.showNextButton = true
                         self.motionManager.stopAccelerometerUpdates()
                     }

@@ -9,50 +9,56 @@
 import SwiftUI
 
 struct FourthPressing: View {
-    private let colors: [Color] = [.pink, .blue, .cyan, .orange, .yellow]
+    private let backgroundImages: [String] = ["Press1", "Press2", "Press3", "Press4", "Press5"]
     
     @State private var index: Int = 0
     @State private var lastTranslation: CGSize = .zero
     @State private var changeCount: Int = 0
-    private let maxChanges = 5  // Maksimum 5 değişim
-    private let sensitivity: CGFloat = 350 // Renk değiştirmek için gereken hareket mesafesi
+    private let maxChanges = 5
+    private let sensitivity: CGFloat = 350
 
     var body: some View {
         ZStack {
-            Rectangle()
-                .fill(colors[index])
-                .ignoresSafeArea()
-                .animation(.easeInOut(duration: 0.5), value: index) // Smooth geçiş
-                .gesture(
-                    DragGesture(minimumDistance: 0)
-                        .onChanged { value in
-                            guard changeCount < maxChanges else { return } // 5 değişimden sonra dur
-                            
-                            let movement = sqrt(pow(value.translation.width, 2) + pow(value.translation.height, 2))
-                            let lastMovement = sqrt(pow(lastTranslation.width, 2) + pow(lastTranslation.height, 2))
-                            let delta = movement - lastMovement
-                            
-                            if abs(delta) > sensitivity, index < colors.count - 1 { // Hassasiyet mesafesini aştıysa
-                                withAnimation {
-                                    index += 1
-                                    changeCount += 1
-                                    lastTranslation = value.translation
-                                }
-                            }
-                        }
-                        .simultaneously(with: DragGesture(minimumDistance: 0)) // İki parmak gerektirir
-                )
-            Text("Move your finger on the screen")
-            if index == colors.count - 1 {
-                NavigationLink("Next") {
-                    FifthDrying()
+            Image(backgroundImages[index])
+                .resizable()
+                .scaledToFill()
+                .frame(width: UIScreen.main.bounds.width, height: 1.1 * UIScreen.main.bounds.height)
+                .animation(nil, value: index) // ❗️Disabling implicit animation
+
+            VStack {
+                Text("Move your finger on the screen")
+                    .foregroundColor(.black)
+                
+                if index == backgroundImages.count - 1 {
+                    NavigationLink("Next") {
+                        FifthDrying()
+                    }
+                    .padding()
+                    .background(Color.white)
+                    .foregroundColor(.black)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
-                .padding()
-                .foregroundColor(.blue)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 100)
             }
+            .padding()
         }
+        .gesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged { value in
+                    guard changeCount < maxChanges else { return }
+                        
+                    let movement = hypot(value.translation.width, value.translation.height)
+                    let lastMovement = hypot(lastTranslation.width, lastTranslation.height)
+                    let delta = movement - lastMovement
+                        
+                    if abs(delta) > sensitivity, index < backgroundImages.count - 1 {
+                        withAnimation(.linear(duration: 0.2)) { // Still animating the state change
+                            index += 1
+                            changeCount += 1
+                            lastTranslation = value.translation
+                        }
+                    }
+                }
+        )
         .navigationBarBackButtonHidden(true)
     }
 }

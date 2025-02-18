@@ -17,6 +17,10 @@ struct FirstCollecting: View {
 
     @State private var rectFrame: CGRect = .zero
     @State private var recycleBinImage: String = "RecycleBin"
+    
+    init() {
+        UINavigationBar.setAnimationsEnabled(false)
+    }
 
     var body: some View {
         NavigationStack {

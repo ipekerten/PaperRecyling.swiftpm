@@ -15,7 +15,7 @@ struct SixthDrawing: View {
     var body: some View {
         ZStack {
             //  Recycled Paper Background
-            Image("recycled_paper_texture")
+            Image("Artboard 1")
                 .resizable()
                 .scaledToFill()
                 .edgesIgnoringSafeArea(.all)
