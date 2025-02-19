@@ -12,9 +12,9 @@ struct ThirdPulping: View {
     @State private var totalRotation: Double = 0
     @State private var lastAngle: Double = 0
 
-    @State private var pulpingImage: String = "Pulping1" // Başlangıç görseli
+    @State private var pulpingImage: String = "Pulping1"
 
-    let rotationThreshold = 300.0 // Görsel değiştirme eşiği
+    let rotationThreshold = 300.0
 
     private func updateRotation(_ deltaAngle: Double) {
         rotationAngle += deltaAngle
@@ -32,25 +32,32 @@ struct ThirdPulping: View {
 
     var body: some View {
         ZStack {
-            // Arka Plan Rengi
             Color(red: 114/255, green: 112/255, blue: 245/255)
                 .ignoresSafeArea()
             
             if pulpingImage == "Pulping4" {
-                NavigationLink("Next") {
+                NavigationLink() {
                     FourthPressing()
+                }label: {
+                    Text("Next")
+                        .font(.title)
                 }
-                .font(.title)
+                .frame(width: 150, height: 70)
+                .background(Color.white)
                 .foregroundColor(.black)
-                .padding()
+                .overlay(
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(Color.black, lineWidth: 2)
+                )
+                .shadow(color: .black, radius: 0, x: 2, y: 2)
                 .offset(y: -UIScreen.main.bounds.height / 3)
             }
 
             VStack {
-                // Wheel (Döndürülebilir Çark) - Move it to the left
-                Image("wheel")
+               
+                Image("Wheel")
                     .resizable()
-                    .frame(width: 150, height: 150)
+                    .frame(width: 180, height: 180)
                     .rotationEffect(.degrees(rotationAngle))
                     .gesture(
                         DragGesture()
@@ -61,17 +68,16 @@ struct ThirdPulping: View {
                                 let angle = atan2(touchPoint.y - center.y, touchPoint.x - center.x) * 180 / .pi
                                 let deltaAngle = angle - lastAngle
                                 
-                                if abs(deltaAngle) < 50 { // Ani sıçramaları önlemek için
+                                if abs(deltaAngle) < 50 {
                                     updateRotation(deltaAngle)
                                 }
 
                                 lastAngle = angle
                             }
                     )
-                    .offset(x: -UIScreen.main.bounds.width / 3.5,
-                            y: 90) // Move the wheel to the left by a third of the screen width
+                    .offset(x: UIScreen.main.bounds.width / 3,
+                            y: 90)
 
-                // Değişen Görsel
                 Image(pulpingImage)
                     .resizable()
                     .scaledToFit()

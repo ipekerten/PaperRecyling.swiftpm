@@ -2,7 +2,7 @@ import SwiftUI
 import CoreMotion
 
 struct FifthDrying: View {
-    @State private var imageName: String = "Press5" // Başlangıç resmi
+    @State private var imageName: String = "Press5"
     @State private var imageIndex: Int = 0
     @State private var showNextButton: Bool = false
 
@@ -20,19 +20,23 @@ struct FifthDrying: View {
                 .onAppear {
                     startMonitoringAccelerometer()
                 }
-
-            Text("Shake the iPad")
-                .foregroundStyle(.black)
             
             if showNextButton {
-                NavigationLink("Next") {
+                NavigationLink() {
                     SixthDrawing()
+                } label: {
+                    Text("Next")
+                        .font(.title)
                 }
-                .padding()
-                .background(Color.black.opacity(0.7))
-                .foregroundColor(.white)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 100)
+                .frame(width: 150, height: 70)
+                .background(Color.white)
+                .foregroundColor(.black)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(Color.black, lineWidth: 2)
+                )
+                .shadow(color: .black, radius: 0, x: 2, y: 2)
+                .offset(y: -UIScreen.main.bounds.height / 3)
             }
         }
         .navigationBarHidden(true)

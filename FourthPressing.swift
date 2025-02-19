@@ -23,20 +23,28 @@ struct FourthPressing: View {
                 .resizable()
                 .scaledToFill()
                 .frame(width: UIScreen.main.bounds.width, height: 1.1 * UIScreen.main.bounds.height)
-                .animation(nil, value: index) // ❗️Disabling implicit animation
+                .animation(nil, value: index)
 
             VStack {
                 Text("Move your finger on the screen")
                     .foregroundColor(.black)
                 
                 if index == backgroundImages.count - 1 {
-                    NavigationLink("Next") {
+                    NavigationLink() {
                         FifthDrying()
+                    } label: {
+                        Text("Next")
+                            .font(.title)
                     }
-                    .padding()
+                    .frame(width: 150, height: 70)
                     .background(Color.white)
                     .foregroundColor(.black)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.black, lineWidth: 2)
+                    )
+                    .shadow(color: .black, radius: 0, x: 2, y: 2)
+                    .offset(y: -UIScreen.main.bounds.height / 3)
                 }
             }
             .padding()
@@ -51,7 +59,7 @@ struct FourthPressing: View {
                     let delta = movement - lastMovement
                         
                     if abs(delta) > sensitivity, index < backgroundImages.count - 1 {
-                        withAnimation(.linear(duration: 0.2)) { // Still animating the state change
+                        withAnimation(.linear(duration: 0.2)) { 
                             index += 1
                             changeCount += 1
                             lastTranslation = value.translation

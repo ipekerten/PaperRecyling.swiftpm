@@ -10,17 +10,15 @@ import PencilKit
 
 struct SixthDrawing: View {
     @State private var canvasView = PKCanvasView()
-    @State private var toolPicker = PKToolPicker() // Use an instance of PKToolPicker
+    @State private var toolPicker = PKToolPicker()
     
     var body: some View {
         ZStack {
-            //  Recycled Paper Background
             Image("Artboard 1")
                 .resizable()
                 .scaledToFill()
                 .edgesIgnoringSafeArea(.all)
 
-            //  Drawing Canvas
             DrawingCanvasView(canvasView: $canvasView)
                 .background(Color.clear) // Keep transparency
                 .clipShape(RoundedRectangle(cornerRadius: 20))
@@ -33,8 +31,7 @@ struct SixthDrawing: View {
         }
         .navigationBarHidden(true)
     }
-    
-    //  Show the PencilKit Tool Picker (Fixed for iOS 14+)
+
     func showToolPicker() {
         DispatchQueue.main.async {
             toolPicker.setVisible(true, forFirstResponder: canvasView)
@@ -44,13 +41,13 @@ struct SixthDrawing: View {
     }
 }
 
-//  PencilKit Canvas Wrapper
+
 struct DrawingCanvasView: UIViewRepresentable {
     @Binding var canvasView: PKCanvasView
 
     func makeUIView(context: Context) -> PKCanvasView {
-        canvasView.drawingPolicy = .anyInput // Allows fingers + Apple Pencil
-        canvasView.backgroundColor = UIColor.clear // Keep the paper texture visible
+        canvasView.drawingPolicy = .anyInput
+        canvasView.backgroundColor = UIColor.clear
         return canvasView
     }
 

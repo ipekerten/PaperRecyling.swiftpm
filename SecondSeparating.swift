@@ -36,7 +36,7 @@ struct SecondSeparating: View {
         DropZone(image: "Newspapers"), DropZone(image: "Cardboards"), DropZone(image: "ComputerPapers")
     ]
     
-    @State private var droppedItems: Set<UUID> = [] // Başarıyla bırakılanları takip eder
+    @State private var droppedItems: Set<UUID> = []
     
     let droppedImages: [String: String] = [
         "Newspapers": "NewspapersFull",
@@ -57,12 +57,20 @@ struct SecondSeparating: View {
             
             GeometryReader { geometry in
                 if draggableItems.allSatisfy({ droppedItems.contains($0.id) }) {
-                    NavigationLink("Next") {
+                    NavigationLink() {
                         ThirdPulping()
+                    } label: {
+                        Text("Next")
+                            .font(.title)
                     }
-                    .font(.title)
-                    .padding()
+                    .frame(width: 150, height: 70)
+                    .background(Color.white)
                     .foregroundColor(.black)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.black, lineWidth: 2)
+                    )
+                    .shadow(color: .black, radius: 0, x: 2, y: 2)
                     .position(x: geometry.size.width / 2, y: geometry.size.height / 3 - 200)
                 }
                 
@@ -80,7 +88,7 @@ struct SecondSeparating: View {
                                     }
                                 }
                             )
-                            .animation(.easeIn(duration: 0.3), value: dropZones[index].currentImage) // Apply animation on image change
+                            .animation(.easeIn(duration: 0.3), value: dropZones[index].currentImage)
                     }
                 }
                 .position(x: geometry.size.width / 2, y: geometry.size.height / 1.5)
@@ -88,7 +96,7 @@ struct SecondSeparating: View {
                 ForEach(draggableItems.indices, id: \.self) { index in
                     let item = draggableItems[index]
                     
-                    if !droppedItems.contains(item.id) { // Zaten bırakılanları gizle
+                    if !droppedItems.contains(item.id) {
                         Image(item.imageName)
                             .resizable()
                             .frame(width: 115, height: 115)
@@ -115,7 +123,7 @@ struct SecondSeparating: View {
                                             if dropZones[i].frame.intersects(itemFrame),
                                                validMatches[item.imageName] == dropZones[i].originalImage {
                                                 DispatchQueue.main.async {
-                                                    droppedItems.insert(item.id) // Item'ı başarıyla bırakılanlara ekle
+                                                    droppedItems.insert(item.id)
                                                     dropZones[i].currentImage = droppedImages[dropZones[i].originalImage] ?? dropZones[i].originalImage
                                                     isDroppedCorrectly = true
                                                 }
@@ -126,7 +134,7 @@ struct SecondSeparating: View {
                                             draggableItems[index].lastOffset = draggableItems[index].offset
                                         } else {
                                             withAnimation {
-                                                draggableItems[index].offset = .zero // Yanlış bırakıldıysa yerine dönsün
+                                                draggableItems[index].offset = .zero
                                             }
                                         }
                                     }

@@ -30,15 +30,23 @@ struct FirstCollecting: View {
                 
                 GeometryReader { geometry in
                     if draggableItems.isEmpty {
-                        NavigationLink("Next") {
+                        NavigationLink() {
                             SecondSeparating()
+                        } label: {
+                            Text("Next")
+                                .font(.title)
                         }
-                        .font(.title)
+                        .frame(width: 150, height: 70)
+                        .background(Color.white)
                         .foregroundColor(.black)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 6)
+                                .stroke(Color.black, lineWidth: 2)
+                        )
+                        .shadow(color: .black, radius: 0, x: 2, y: 2)
                         .position(x: geometry.size.width / 2, y: geometry.size.height / 3 - 200)
                     }
                     
-                    // Geri dönüşüm kutusu
                     Image(recycleBinImage)
                         .resizable()
                         .scaledToFit()
@@ -63,7 +71,7 @@ struct FirstCollecting: View {
                         Image(item.imageName)
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 140, height: 140) // Boyutu 100x100 olarak ayarlandı
+                            .frame(width: 140, height: 140)
                             .offset(item.offset)
                             .gesture(
                                 DragGesture()
@@ -78,7 +86,7 @@ struct FirstCollecting: View {
                                         
                                         let imageFrame = CGRect(
                                             x: (geometry.size.width / 2 - (CGFloat(draggableItems.count - 1) * 70)) + CGFloat(index * 140) + draggableItems[index].lastOffset.width,
-                                            y: (geometry.size.height / 3 - 50) + draggableItems[index].lastOffset.height, // Yükseklik de güncellendi
+                                            y: (geometry.size.height / 3 - 50) + draggableItems[index].lastOffset.height,
                                             width: 140,
                                             height: 140
                                         )
@@ -94,7 +102,7 @@ struct FirstCollecting: View {
                                     }
                             )
                             .position(
-                                x: geometry.size.width / 2 - (CGFloat(draggableItems.count - 1) * 75) + CGFloat(index * 150), // Konumlar düzeltildi
+                                x: geometry.size.width / 2 - (CGFloat(draggableItems.count - 1) * 75) + CGFloat(index * 150),
                                 y: geometry.size.height / 3
                             )
                     }
