@@ -42,8 +42,8 @@ struct FourthPressing: View {
                     .overlay(
                         RoundedRectangle(cornerRadius: 6)
                             .stroke(Color.black, lineWidth: 2)
+                            .shadow(color: .black, radius: 0, x: 2, y: 2)
                     )
-                    .shadow(color: .black, radius: 0, x: 2, y: 2)
                     .offset(y: -UIScreen.main.bounds.height / 3)
                 }
             }

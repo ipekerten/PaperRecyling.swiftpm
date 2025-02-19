@@ -23,8 +23,7 @@ struct FirstCollecting: View {
     }
 
     var body: some View {
-        NavigationStack {
-            ZStack{
+            ZStack {
                 Color(red: 255/255, green: 187/255, blue: 2/255)
                     .ignoresSafeArea()
                 
@@ -42,8 +41,8 @@ struct FirstCollecting: View {
                         .overlay(
                             RoundedRectangle(cornerRadius: 6)
                                 .stroke(Color.black, lineWidth: 2)
+                                .shadow(color: .black, radius: 0, x: 2, y: 2)
                         )
-                        .shadow(color: .black, radius: 0, x: 2, y: 2)
                         .position(x: geometry.size.width / 2, y: geometry.size.height / 3 - 200)
                     }
                     
@@ -110,6 +109,9 @@ struct FirstCollecting: View {
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 .navigationBarHidden(true)
             }
-        }
     }
+}
+
+#Preview {
+    FirstCollecting()
 }
