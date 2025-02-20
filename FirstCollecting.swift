@@ -27,17 +27,19 @@ struct FirstCollecting: View {
                 Color(red: 255/255, green: 187/255, blue: 2/255)
                     .ignoresSafeArea()
                 
-                Text("Collect papers into the recycle bin!")
-                    .font(.title2)
-                    .frame(width: 360, height: 50)
-                    .background(Color.white)
-                    .foregroundColor(.black)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 6)
-                            .stroke(Color.black, lineWidth: 2)
-                            .shadow(color: .black, radius: 0, x: 2, y: 2)
-                    )
-                    .offset(y: -UIScreen.main.bounds.height / 2 + 100)
+                if !draggableItems.isEmpty {
+                    Text("Collect papers into the recycle bin!")
+                        .font(.title2)
+                        .frame(width: 360, height: 50)
+                        .background(Color.white)
+                        .foregroundColor(.black)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 6)
+                                .stroke(Color.black, lineWidth: 2)
+                                .shadow(color: .black, radius: 0, x: 2, y: 2)
+                        )
+                        .offset(y: -UIScreen.main.bounds.height / 2 + 100)
+                }
                 
                 GeometryReader { geometry in
                     if draggableItems.isEmpty {
@@ -47,7 +49,7 @@ struct FirstCollecting: View {
                             Text("Next")
                                 .font(.title)
                         }
-                        .frame(width: 150, height: 70)
+                        .frame(width: 100, height: 50)
                         .background(Color.white)
                         .foregroundColor(.black)
                         .overlay(

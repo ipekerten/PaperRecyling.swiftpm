@@ -25,17 +25,19 @@ struct FourthPressing: View {
                 .frame(width: UIScreen.main.bounds.width, height: 1.1 * UIScreen.main.bounds.height)
                 .animation(nil, value: index)
             
-            Text("Press the paper by moving your Apple Pencil on the screen!")
-                .font(.title2)
-                .frame(width: 600, height: 50)
-                .background(Color.white)
-                .foregroundColor(.black)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 6)
-                        .stroke(Color.black, lineWidth: 2)
-                        .shadow(color: .black, radius: 0, x: 2, y: 2)
-                )
-                .offset(y: -UIScreen.main.bounds.height / 2 + 100)
+            if index != backgroundImages.count - 1 {
+                Text("Press the paper by moving your Apple Pencil on the screen!")
+                    .font(.title2)
+                    .frame(width: 600, height: 50)
+                    .background(Color.white)
+                    .foregroundColor(.black)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.black, lineWidth: 2)
+                            .shadow(color: .black, radius: 0, x: 2, y: 2)
+                    )
+                    .offset(y: -UIScreen.main.bounds.height / 2 + 100)
+            }
 
             VStack {
                 
@@ -46,7 +48,7 @@ struct FourthPressing: View {
                         Text("Next")
                             .font(.title)
                     }
-                    .frame(width: 150, height: 70)
+                    .frame(width: 100, height: 50)
                     .background(Color.white)
                     .foregroundColor(.black)
                     .overlay(

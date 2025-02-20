@@ -21,34 +21,57 @@ struct FifthDrying: View {
                     startMonitoringAccelerometer()
                 }
             
-            Text("Shake your iPad to drain the water and dry the paper!")
-                .font(.title2)
-                .frame(width: 530, height: 50)
-                .background(Color.white)
-                .foregroundColor(.black)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 6)
-                        .stroke(Color.black, lineWidth: 2)
-                        .shadow(color: .black, radius: 0, x: 2, y: 2)
-                )
-                .offset(y: -UIScreen.main.bounds.height / 2 + 100)
-            
+            if !showNextButton {
+                Text("Shake your iPad to drain the water and dry the paper!")
+                    .font(.title2)
+                    .frame(width: 530, height: 50)
+                    .background(Color.white)
+                    .foregroundColor(.black)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.black, lineWidth: 2)
+                            .shadow(color: .black, radius: 0, x: 2, y: 2)
+                    )
+                    .offset(y: -UIScreen.main.bounds.height / 2 + 100)
+            }
+
             if showNextButton {
-                NavigationLink() {
-                    SixthDrawing()
-                } label: {
-                    Text("Next")
-                        .font(.title)
+                ZStack {
+                    NavigationLink() {
+                        SixthDrawing()
+                    } label: {
+                        Text("Next")
+                            .font(.title)
+                    }
+                    .frame(width: 100, height: 50)
+                    .background(Color.white)
+                    .foregroundColor(.black)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.black, lineWidth: 2)
+                            .shadow(color: .black, radius: 0, x: 2, y: 2)
+                    )
+                    .offset(y: -UIScreen.main.bounds.height / 3)
+                    
+                    Rectangle()
+                        .fill(Color(red: 247/255, green: 110/255, blue: 69/255))
+                        .frame(width: 500, height: 200)
+                        .overlay(Rectangle().stroke(Color.black, lineWidth: 2))
+                        .shadow(color: .black, radius: 0, x: 4, y: 4)
+
+                    VStack(alignment: .center, spacing: 20) {
+                        Text("Your paper is ready!\nNow, let's turn it into art!")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .foregroundColor(.black)
+                        
+                        Text("Remember, every sheet counts!")
+                            .font(.title)
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.black)
+                    }
+                    
                 }
-                .frame(width: 150, height: 70)
-                .background(Color.white)
-                .foregroundColor(.black)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 6)
-                        .stroke(Color.black, lineWidth: 2)
-                        .shadow(color: .black, radius: 0, x: 2, y: 2)
-                )
-                .offset(y: -UIScreen.main.bounds.height / 3)
             }
         }
         .navigationBarHidden(true)
