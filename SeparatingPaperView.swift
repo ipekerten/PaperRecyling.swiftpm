@@ -72,7 +72,7 @@ struct SeparatingPaperView: View {
             GeometryReader { geometry in
                 if draggableItems.allSatisfy({ droppedItems.contains($0.id) }) {
                     NavigationLink() {
-                        ThirdPulping()
+                        PulpingPaperView()
                     } label: {
                         Text("Next")
                             .font(.title)

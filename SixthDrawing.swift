@@ -14,11 +14,6 @@ struct SixthDrawing: View {
     
     var body: some View {
         ZStack {
-            Image("Artboard 1")
-                .resizable()
-                .scaledToFill()
-                .edgesIgnoringSafeArea(.all)
-
             DrawingCanvasView(canvasView: $canvasView)
                 .background(Color.clear)
                 .clipShape(RoundedRectangle(cornerRadius: 20))

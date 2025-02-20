@@ -8,19 +8,19 @@ import PackageDescription
 import AppleProductTypes
 
 let package = Package(
-    name: "PaperRecyling",
+    name: "RePaper",
     platforms: [
         .iOS("16.0")
     ],
     products: [
         .iOSApplication(
-            name: "PaperRecyling",
+            name: "RePaper",
             targets: ["AppModule"],
             bundleIdentifier: "org.academy.developer.ipek.PaperRecyling",
             teamIdentifier: "4NQYC7P978",
             displayVersion: "1.0",
             bundleVersion: "1",
-            appIcon: .placeholder(icon: .leaf),
+            appIcon: .asset("AppIcon"),
             accentColor: .presetColor(.mint),
             supportedDeviceFamilies: [
                 .pad,
@@ -38,5 +38,5 @@ let package = Package(
             path: "."
         )
     ],
-    swiftLanguageVersions: [.v6]
+    swiftLanguageVersions: [.version("6")]
 )

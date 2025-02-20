@@ -35,7 +35,7 @@ struct OnboardingView: View {
                     HStack {
                         Spacer()
                         NavigationLink {
-                            FirstCollecting()
+                            CollectingPaperView()
                         } label: {
                             Text("START")
                                 .font(.title3)

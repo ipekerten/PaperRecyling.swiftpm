@@ -44,7 +44,7 @@ struct CollectingPaperView: View {
                 GeometryReader { geometry in
                     if draggableItems.isEmpty {
                         NavigationLink() {
-                            SecondSeparating()
+                            SeparatingPaperView()
                         } label: {
                             Text("Next")
                                 .font(.title)
