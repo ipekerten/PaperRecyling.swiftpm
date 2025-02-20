@@ -21,6 +21,18 @@ struct FifthDrying: View {
                     startMonitoringAccelerometer()
                 }
             
+            Text("Shake your iPad to drain the water and dry the paper!")
+                .font(.title2)
+                .frame(width: 530, height: 50)
+                .background(Color.white)
+                .foregroundColor(.black)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(Color.black, lineWidth: 2)
+                        .shadow(color: .black, radius: 0, x: 2, y: 2)
+                )
+                .offset(y: -UIScreen.main.bounds.height / 2 + 100)
+            
             if showNextButton {
                 NavigationLink() {
                     SixthDrawing()

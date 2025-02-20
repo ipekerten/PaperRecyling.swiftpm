@@ -20,7 +20,7 @@ struct SixthDrawing: View {
                 .edgesIgnoringSafeArea(.all)
 
             DrawingCanvasView(canvasView: $canvasView)
-                .background(Color.clear) // Keep transparency
+                .background(Color.clear)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .shadow(radius: 5)
                 .padding()

@@ -55,6 +55,18 @@ struct SecondSeparating: View {
             Color(red: 122/255, green: 229/255, blue: 201/255)
                 .ignoresSafeArea()
             
+            Text("Separate papers into the categories!")
+                .font(.title2)
+                .frame(width: 380, height: 50)
+                .background(Color.white)
+                .foregroundColor(.black)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(Color.black, lineWidth: 2)
+                        .shadow(color: .black, radius: 0, x: 2, y: 2)
+                )
+                .offset(y: -UIScreen.main.bounds.height / 2 + 100)
+            
             GeometryReader { geometry in
                 if draggableItems.allSatisfy({ droppedItems.contains($0.id) }) {
                     NavigationLink() {
