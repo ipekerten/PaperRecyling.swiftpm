@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SecondSeparating: View {
+struct SeparatingPaperView: View {
     struct DraggableItem: Identifiable, Equatable {
         let id = UUID()
         var imageName: String
@@ -167,5 +167,5 @@ struct SecondSeparating: View {
 }
 
 #Preview {
-    SecondSeparating()
+    SeparatingPaperView()
 }

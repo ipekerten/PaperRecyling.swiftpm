@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct FourthPressing: View {
+struct PressingPaperView: View {
     private let backgroundImages: [String] = ["Press1", "Press2", "Press3", "Press4", "Press5"]
     
     @State private var index: Int = 0
@@ -43,7 +43,7 @@ struct FourthPressing: View {
                 
                 if index == backgroundImages.count - 1 {
                     NavigationLink() {
-                        FifthDrying()
+                        DryingPaperView()
                     } label: {
                         Text("Next")
                             .font(.title)
@@ -84,7 +84,7 @@ struct FourthPressing: View {
 }
 
 #Preview {
-    FourthPressing()
+    PressingPaperView()
 }
 
 

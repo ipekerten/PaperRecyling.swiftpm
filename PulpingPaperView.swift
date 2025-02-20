@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ThirdPulping: View {
+struct PulpingPaperView: View {
     @State private var rotationAngle: Double = 0
     @State private var totalRotation: Double = 0
     @State private var lastAngle: Double = 0
@@ -51,7 +51,7 @@ struct ThirdPulping: View {
             
             if pulpingImage == "Pulping4" {
                 NavigationLink() {
-                    FourthPressing()
+                    PressingPaperView()
                 }label: {
                     Text("Next")
                         .font(.title)
@@ -105,5 +105,5 @@ struct ThirdPulping: View {
 }
 
 #Preview {
-    ThirdPulping()
+    PulpingPaperView()
 }

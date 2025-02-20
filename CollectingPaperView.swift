@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct FirstCollecting: View {
+struct CollectingPaperView: View {
     struct DraggableItem: Identifiable {
         var id = UUID()
         var offset: CGSize = .zero
@@ -127,5 +127,5 @@ struct FirstCollecting: View {
 }
 
 #Preview {
-    FirstCollecting()
+    CollectingPaperView()
 }

@@ -1,7 +1,7 @@
 import SwiftUI
 import CoreMotion
 
-struct FifthDrying: View {
+struct DryingPaperView: View {
     @State private var imageName: String = "Press5"
     @State private var imageIndex: Int = 0
     @State private var showNextButton: Bool = false
@@ -110,5 +110,5 @@ struct FifthDrying: View {
 }
 
 #Preview {
-    FifthDrying()
+    DryingPaperView()
 }
