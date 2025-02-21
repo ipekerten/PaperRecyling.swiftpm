@@ -27,7 +27,7 @@ struct OnboardingView: View {
                         .fontWeight(.bold)
                         .foregroundColor(.black)
 
-                    Text("Let’s recycle paper together! Collect, separate, and press it into fresh sheets. Use your Apple Pencil and gestures to complete each step—draw, drag, and interact to bring recycling to life!")
+                    Text("Let’s recycle paper together! Collect, separate, and press it into fresh sheets. Use your Apple Pencil and gestures to complete each step—draw, drag, and interact to bring recycling to life!\nEnjoy it in portrait mode!")
                         .font(.title)
                         .multilineTextAlignment(.leading)
                         .foregroundColor(.black)
