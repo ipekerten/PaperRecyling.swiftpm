@@ -38,7 +38,7 @@ struct PulpingPaperView: View {
             if pulpingImage != "Pulping4" {
                 Text("Spin the wheel to start the pulping, screening, and de-inking process!")
                     .font(.title2)
-                    .frame(width: 700, height: 50)
+                    .frame(width: 680, height: 50)
                     .background(Color.white)
                     .foregroundColor(.black)
                     .overlay(

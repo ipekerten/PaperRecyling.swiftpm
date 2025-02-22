@@ -38,7 +38,7 @@ struct DryingPaperView: View {
             if showNextButton {
                 ZStack {
                     NavigationLink() {
-                        SixthDrawing()
+                        PaperDrawingView()
                     } label: {
                         Text("Next")
                             .font(.title)

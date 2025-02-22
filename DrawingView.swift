@@ -8,7 +8,7 @@
 import SwiftUI
 import PencilKit
 
-struct SixthDrawing: View {
+struct PaperDrawingView: View {
     @State private var canvasView = PKCanvasView()
     @State private var toolPicker = PKToolPicker()
     
@@ -19,8 +19,27 @@ struct SixthDrawing: View {
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .shadow(radius: 5)
                 .padding()
+            
+            VStack {
+                Spacer()
+                
+                NavigationLink {
+                    FinishedView()
+                } label: {
+                    Text("Done")
+                        .font(.title)
+                .frame(width: 100, height: 50)
+                .background(Color.white)
+                .foregroundColor(.black)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(Color.black, lineWidth: 2)
+                        .shadow(color: .black, radius: 0, x: 2, y: 2)
+                )
+                }
+                .padding(.bottom, 20)
+            }
         }
-        .navigationTitle("Draw on Recycled Paper")
         .onAppear {
             showToolPicker()
         }
@@ -36,7 +55,6 @@ struct SixthDrawing: View {
     }
 }
 
-
 struct DrawingCanvasView: UIViewRepresentable {
     @Binding var canvasView: PKCanvasView
 
@@ -50,5 +68,5 @@ struct DrawingCanvasView: UIViewRepresentable {
 }
 
 #Preview {
-    SixthDrawing()
+    PaperDrawingView()
 }
